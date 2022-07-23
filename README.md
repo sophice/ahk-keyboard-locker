@@ -1,6 +1,6 @@
 # AutoHotkey Keyboard Locker
 
-This is an AutoHotkey script you can use to temporarily lock your keyboard system-wide. When your keyboard is locked by this script, keypresses will be caught by the script and blocked, until you unlock your keyboard again.
+This is an AutoHotkey script you can use to temporarily lock your keyboard system-wide. When your keyboard is locked by this script, keypresses will be caught by the script and blocked until you unlock your keyboard again.
 
 # What is it for?
 
@@ -11,6 +11,8 @@ Some potential uses for this script:
 - Make it harder for people to mess with your computer when you briefly step away.
 
 # How to use it
+
+First you must install [AutoHotkey](https://www.autohotkey.com/) in order to run .ahk scripts.
 
 After running the script, lock the keyboard either by pressing the default shortcut "Ctrl+Alt+L", or by right clicking on the tray icon and selecting "Lock keyboard".
 
