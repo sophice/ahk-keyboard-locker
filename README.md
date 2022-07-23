@@ -1,36 +1,37 @@
-# AutoHotkey Keyboard Disabler
+# AutoHotkey Keyboard Locker
 
-This is an AutoHotkey script you can use to temporarily disable your keyboard system-wide. When your keyboard is disabled by this script, keypresses will be caught by the script and blocked, until you re-enable your keyboard again.
+This is an AutoHotkey script you can use to temporarily lock your keyboard system-wide. When your keyboard is locked by this script, keypresses will be caught by the script and blocked, until you unlock your keyboard again.
 
 # What is it for?
 
 Some potential uses for this script:
 
-- Lock your keyboard while whiping it clean.
-- Allow a toddler to tap away without messing up your system.
+- Lock your keyboard while wiping it clean.
+- Allow a baby/toddler to tap away on your keyboard without messing up your system.
 - Make it harder for people to mess with your computer when you briefly step away.
 
 # How to use it
 
-After running the script, disable the keyboard either by pressing the default shortcut "Ctrl+Alt+D", or by right clicking on the tray icon and selecting "Disable keyboard".
+After running the script, lock the keyboard either by pressing the default shortcut "Ctrl+Alt+L", or by right clicking on the tray icon and selecting "Lock keyboard".
 
-Enable the keyboard either by typing the default password "enable", or by right clicking on the tray icon and selecting "Enable keyboard".
+Unlock the keyboard either by typing the default password "unlock", or by right clicking on the tray icon and selecting "Unlock keyboard".
 
 The shortcut and password can easily be changed to your preference by editing the script.
 
 # Known issues
 
-- Modifier keys may get "stuck" after typing the unlock password, requiring you to press them again to get them unstuck.
-- There is sometimes a slight delay after typing the password before the keyboard is enabled.
+- Some keys (especially modifiers) may get "stuck" after typing the unlock password, requiring you to press them again to get them unstuck.
+- There is sometimes a slight delay after typing the password before the keyboard is unlocked.
 
-Feel free to submit a PR if you have fixes for these issues!
+Feel free to submit a PR if you have improvements for these issues!
 
 # Potential future improvements
 
-- Stealth mode: disable the keyboard and hide the tray icon and tooltips so that others can't easily see why it's disabled, making it more difficult to enable the keyboard.
-- Temporary password: allow users to set the password at the time of locking the keyboard, so that others can't know your password from the source file or tooltips.
-- Disable the mouse: allow users to also disable the mouse, or both the mouse and keyboard.
+- Better configuration: add optional command line parameters to customize the script on run, and add an optional settings file to provide your own defaults.
+- Stealth mode: optionally hide the tray icon and tooltips on lock, making it slightly more difficult for others to snoop.
+- Temporary password: optionally set the password at the time of locking the keyboard, to avoid using the one that is readable in the script itself.
+- Lock the mouse: optionally lock the mouse, or both the mouse and keyboard.
 
 # Credits
 
-This script is based on the [Keyboard Locker script from this HowToGeek article](https://www.howtogeek.com/howto/11570/disable-the-keyboard-with-a-keyboard-shortcut-in-windows/).
+This script is inspired by the [Keyboard Locker script from this HowToGeek article](https://www.howtogeek.com/howto/11570/disable-the-keyboard-with-a-keyboard-shortcut-in-windows/), but fixes issues with newer versions of windows and adds a number of new features and improvements.
