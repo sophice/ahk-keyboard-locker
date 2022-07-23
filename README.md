@@ -34,6 +34,7 @@ Feel free to submit a PR if you have improvements for these issues!
 - Stealth mode: optionally hide the tray icon and tooltips on lock, making it slightly more difficult for others to snoop.
 - Temporary password: optionally set the password at the time of locking the keyboard, to avoid using the one that is readable in the script itself.
 - Lock the mouse: optionally lock the mouse, or both the mouse and keyboard.
+- Unlock timer: automatically unlock the keyboard after a specified amount of time.
 
 # Credits
 
