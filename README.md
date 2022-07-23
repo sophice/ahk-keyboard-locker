@@ -1,6 +1,6 @@
 # AutoHotkey Keyboard Locker
 
-This is an AutoHotkey script you can use to temporarily lock your keyboard system-wide. When your keyboard is locked by this script, keypresses will be caught by the script and blocked until you unlock your keyboard again.
+This is an AutoHotkey script you can use to temporarily block keyboard input. When your keyboard is locked by this script, keypresses will be caught by the script and blocked until you unlock your keyboard again.
 
 # What is it for?
 
@@ -22,6 +22,7 @@ The shortcut and password can easily be changed to your preference by editing th
 
 # Known issues
 
+- Some special function keys or key combinations may not be blocked.
 - Some keys (especially modifiers) may get "stuck" after typing the unlock password, requiring you to press them again to get them unstuck.
 - There is sometimes a slight delay after typing the password before the keyboard is unlocked.
 
