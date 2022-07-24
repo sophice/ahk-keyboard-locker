@@ -25,11 +25,11 @@ initialize()
 }
 
 ;shortcut to lock the keyboard (can't be called if keyboard is already locked)
-^!l::
+^!k::
 	;don't block Ctrl, Alt or L key-up
 	KeyWait, Ctrl
 	KeyWait, Alt
-	KeyWait, l
+	KeyWait, k
 
 	LockKeyboard(true)
 return

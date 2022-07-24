@@ -14,7 +14,7 @@ Some potential uses for this script:
 
 First you must install [AutoHotkey](https://www.autohotkey.com/) in order to run .ahk scripts.
 
-After running the script, lock the keyboard either by pressing the default shortcut "Ctrl+Alt+L", or by right clicking on the tray icon and selecting "Lock keyboard".
+After running the script, lock the keyboard either by pressing the default shortcut "Ctrl+Alt+k", or by right clicking on the tray icon and selecting "Lock keyboard".
 
 Unlock the keyboard either by typing the default password "unlock", or by right clicking on the tray icon and selecting "Unlock keyboard".
 
