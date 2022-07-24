@@ -17,16 +17,16 @@ initialize()
 	;initialize the tray icon and menu
 	Menu, Tray, Icon, unlocked.ico
 	Menu, Tray, NoStandard
-	Menu, Tray, Tip, Press Ctrl+Alt+L to lock your keyboard
+	Menu, Tray, Tip, Press Ctrl+Alt+k to lock your keyboard
 	Menu, Tray, Add, Lock keyboard, ToggleKeyboard
 	Menu, Tray, Add, Hide tray notifications, ToggleTray
 	Menu, Tray, Add, Exit, Exit
-	TrayTip,,To lock your keyboard press Ctrl+Alt+L.,10,1
+	TrayTip,,To lock your keyboard press Ctrl+Alt+k.,10,1
 }
 
 ;shortcut to lock the keyboard (can't be called if keyboard is already locked)
 ^!k::
-	;don't block Ctrl, Alt or L key-up
+	;don't block Ctrl, Alt or k key-up
 	KeyWait, Ctrl
 	KeyWait, Alt
 	KeyWait, k
@@ -98,14 +98,14 @@ LockKeyboard(lock)
 		}
 	} else {
 		Menu, Tray, Icon, unlocked.ico
-		Menu, Tray, Tip, Press Ctrl+Alt+L to lock your keyboard
+		Menu, Tray, Tip, Press Ctrl+Alt+k to lock your keyboard
 		DllCall("UnhookWindowsHookEx", "Ptr", hHook)
 		hHook = 0
 		locked := false
 		Menu, Tray, Rename, Unlock keyboard, Lock keyboard
 
 		if (notray = 0) {
-			TrayTip,,Your keyboard is now unlocked.`nPress Ctrl+Alt+L to lock it again.,10,1
+			TrayTip,,Your keyboard is now unlocked.`nPress Ctrl+Alt+k to lock it again.,10,1
 		}
 	}
 }
