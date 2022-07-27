@@ -4,11 +4,11 @@ This is an AutoHotkey script you can use to temporarily block keyboard input. Wh
 
 # What is it for?
 
-- Lock your keyboard while wiping it clean.
-- Allow a baby/toddler to tap away on your keyboard without messing up your system.
-- Defend against your cat walking across/sleeping on your keyboard.
-- Mess with coworkers.
-- Block coworkers from messing with you.
+- Locking your keyboard while wiping it clean.
+- Allowing a baby/toddler to tap away on your keyboard without messing up your system.
+- Defending against your cat that walks across or sleeps on your keyboard.
+- Messing with coworkers.
+- Blocking coworkers from messing with you.
 
 Note: This is not security software and is easily bypassed. Only use it for convenience, not security.
 
@@ -20,11 +20,11 @@ Note: This is not security software and is easily bypassed. Only use it for conv
 4) Lock the keyboard either by pressing the default shortcut "Ctrl+Alt+k", or by right clicking on the tray icon and selecting "Lock keyboard".
 5) Unlock the keyboard either by typing the default password "unlock", or by right clicking on the tray icon and selecting "Unlock keyboard".
 
-The shortcut and password can easily be changed by editing the script.
+The keyboard shortcut and password can be changed by editing keyboard-locker.ahk.
 
 # Known issues
 
-- Some media/function keys or Windows system shortcuts may not be blocked.
+- Some media keys or Windows shortcuts may not be blocked.
 - Some keys (especially modifiers) may get "stuck" after typing the unlock password, requiring you to press them again to get them unstuck.
 - There is sometimes a slight delay after typing the password before the keyboard is unlocked.
 
