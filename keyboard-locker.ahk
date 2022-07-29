@@ -15,7 +15,7 @@ initialize()
 	global password = "unlock"
 
 	;initialize the tray icon and menu
-	Menu, Tray, Icon, unlocked.ico
+	Menu, Tray, Icon, %A_ScriptDir%\unlocked.ico
 	Menu, Tray, NoStandard
 	Menu, Tray, Tip, Press Ctrl+Alt+k to lock your keyboard
 	Menu, Tray, Add, Lock keyboard, ToggleKeyboard
@@ -86,7 +86,7 @@ LockKeyboard(lock)
 	}
  
 	if (lock) {
-		Menu, Tray, Icon, locked.ico
+		Menu, Tray, Icon, %A_ScriptDir%\locked.ico
 		Menu, Tray, Tip, Type "unlock" to unlock your keyboard
 		hHook := DllCall("SetWindowsHookEx", "Ptr", WH_KEYBOARD_LL:=13, "Ptr", RegisterCallback("Hook_Keyboard","Fast"), "Uint", DllCall("GetModuleHandle", "Uint", 0, "Ptr"), "Uint", 0, "Ptr")
 		locked := true
@@ -97,7 +97,7 @@ LockKeyboard(lock)
 			TrayTip,,Your keyboard is now locked.`nType in "unlock" to unlock it.,10,1
 		}
 	} else {
-		Menu, Tray, Icon, unlocked.ico
+		Menu, Tray, Icon, %A_ScriptDir%\unlocked.ico
 		Menu, Tray, Tip, Press Ctrl+Alt+k to lock your keyboard
 		DllCall("UnhookWindowsHookEx", "Ptr", hHook)
 		hHook = 0
