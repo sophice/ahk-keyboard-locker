@@ -42,4 +42,4 @@ Feel free to submit a PR if you have improvements for these issues!
 
 # Credits
 
-This script is inspired by the Keyboard Locker script from this HowToGeek [article](https://www.howtogeek.com/howto/11570/disable-the-keyboard-with-a-keyboard-shortcut-in-windows/).
+This script is inspired by the Keyboard Locker script from this HowToGeek [article](https://www.howtogeek.com/howto/11570/disable-the-keyboard-with-a-keyboard-shortcut-in-windows/), which in turn was based on a script by an AutoHotkey forum user named Lexikos (the original forum thread appears to be lost due to forum move, but was originally found [here](http://www.autohotkey.com/forum/post-147849.html#147849)).
