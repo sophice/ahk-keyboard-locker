@@ -4,9 +4,9 @@ This is an AutoHotkey script you can use to temporarily block keyboard input. Wh
 
 # What is it for?
 
-- Locking your keyboard while wiping it clean.
 - Allowing a baby/toddler to tap away on your keyboard without messing up your system.
 - Defending against your cat that walks across or sleeps on your keyboard.
+- Locking your keyboard while wiping it clean.
 - Messing with coworkers.
 - Blocking coworkers from messing with you.
 
