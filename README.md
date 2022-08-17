@@ -14,18 +14,18 @@ Note: This is not security software and is easily bypassed. Only use it for conv
 
 # How to use it
 
-You can either use the latest executable release, or run the script itself.
+You can either use the latest executable release, or run the script itself. Both can be accessed [here](https://github.com/sophice/ahk-keyboard-locker/releases).
 
 ## Running the executable
 
-Download the [latest executable release](https://github.com/sophice/ahk-keyboard-locker/releases/download/v0.1.0-alpha/keyboard-locker.exe), place it anywhere you want, and run it!
+Download the [latest executable release](https://github.com/sophice/ahk-keyboard-locker/releases), place it anywhere you want, and run it!
 
 Note: You cannot currently change the keyboard shortcut or password in the executable version. The keyboard shortcut to lock is Ctrl+Alt+K, and the password to unlock is "unlock".
 
 ## Running the .ahk script
 
 1) Install [AutoHotkey](https://www.autohotkey.com/) version 1.x in order to run .ahk scripts. Not tested with AutoHotkey version 2.
-2) Download [all files](https://github.com/sophice/ahk-keyboard-locker/archive/refs/heads/main.zip) from this repo and extract/place them where you want.
+2) Download [the latest release](https://github.com/sophice/ahk-keyboard-locker/releases) and extract the files where you want.
 3) Run keyboard-locker.ahk.
 4) Lock the keyboard either by pressing the default shortcut "Ctrl+Alt+k", or by right clicking on the tray icon and selecting "Lock keyboard".
 5) Unlock the keyboard either by typing the default password "unlock", or by right clicking on the tray icon and selecting "Unlock keyboard".
