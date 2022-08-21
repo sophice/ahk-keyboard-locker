@@ -4,9 +4,9 @@ This is an AutoHotkey script you can use to temporarily block keyboard input. Wh
 
 # What is it for?
 
-- Locking your keyboard while wiping it clean.
 - Allowing a baby/toddler to tap away on your keyboard without messing up your system.
 - Defending against your cat that walks across or sleeps on your keyboard.
+- Locking your keyboard while wiping it clean.
 - Messing with coworkers.
 - Blocking coworkers from messing with you.
 
@@ -14,8 +14,18 @@ Note: This is not security software and is easily bypassed. Only use it for conv
 
 # How to use it
 
+You can either use the latest executable release, or run the script itself. Both can be accessed [here](https://github.com/sophice/ahk-keyboard-locker/releases).
+
+## Running the executable
+
+Download the [latest executable release](https://github.com/sophice/ahk-keyboard-locker/releases), place it anywhere you want, and run it!
+
+Note: You cannot currently change the keyboard shortcut or password in the executable version. The keyboard shortcut to lock is Ctrl+Alt+K, and the password to unlock is "unlock".
+
+## Running the .ahk script
+
 1) Install [AutoHotkey](https://www.autohotkey.com/) version 1.x in order to run .ahk scripts. Not tested with AutoHotkey version 2.
-2) Download [all files](https://github.com/sophice/ahk-keyboard-locker/archive/refs/heads/main.zip) from this repo and extract/place them where you want.
+2) Download [the latest release](https://github.com/sophice/ahk-keyboard-locker/releases) and extract the files where you want.
 3) Run keyboard-locker.ahk.
 4) Lock the keyboard either by pressing the default shortcut "Ctrl+Alt+k", or by right clicking on the tray icon and selecting "Lock keyboard".
 5) Unlock the keyboard either by typing the default password "unlock", or by right clicking on the tray icon and selecting "Unlock keyboard".
@@ -42,4 +52,4 @@ Feel free to submit a PR if you have improvements for these issues!
 
 # Credits
 
-This script is inspired by the Keyboard Locker script from this HowToGeek [article](https://www.howtogeek.com/howto/11570/disable-the-keyboard-with-a-keyboard-shortcut-in-windows/).
+This script is inspired by the Keyboard Locker script from this HowToGeek [article](https://www.howtogeek.com/howto/11570/disable-the-keyboard-with-a-keyboard-shortcut-in-windows/), which in turn was based on a script by an AutoHotkey forum user named Lexikos (the original forum thread appears to be lost due to forum move, but was originally found [here](http://www.autohotkey.com/forum/post-147849.html#147849)).
