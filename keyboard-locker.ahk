@@ -1,4 +1,5 @@
 ﻿#Persistent
+ #SingleInstance force
 FileInstall, unlocked.ico, unlocked.ico, 0
 FileInstall, locked.ico, locked.ico, 0
 initialize()
