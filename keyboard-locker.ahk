@@ -26,7 +26,9 @@ initialize()
 		Menu, Tray, add, Show tray notifications, ToggleTray
 	}
 	Menu, Tray, Add, Exit, Exit
-	TrayTip,,To lock your keyboard press Ctrl+Alt+k.,10,1
+	if (notray = 0) {
+    	TrayTip,,To lock your keyboard press Ctrl+Alt+k.,10,1
+    }
 }
 
 ;shortcut to lock the keyboard (can't be called if keyboard is already locked)
