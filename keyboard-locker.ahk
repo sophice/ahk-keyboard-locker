@@ -93,9 +93,9 @@ LockKeyboard(lock)
 		Menu, Tray, Rename, Lock keyboard, Unlock keyboard
 		
 		; stops the mouse inputs, todo: optional stop mousemove
-		Hotkey, LButton, DummyLabel
-		Hotkey, RButton, DummyLabel
-		Hotkey, MButton, DummyLabel
+		Hotkey, LButton, doNothing
+		Hotkey, RButton, doNothing
+		Hotkey, MButton, doNothing
 		;BlockInput, MouseMove
 
 
@@ -224,5 +224,5 @@ inArray(needle, haystack) {
 }
 
 ;the dummy label to stop mouse inputs
-DummyLabel:
+doNothing:
 return
