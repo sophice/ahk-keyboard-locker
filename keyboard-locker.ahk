@@ -1,5 +1,6 @@
-﻿#Persistent
+#Persistent
 #SingleInstance Ignore
+
 FileInstall, unlocked.ico, unlocked.ico, 0
 FileInstall, locked.ico, locked.ico, 0
 initialize()
@@ -11,17 +12,22 @@ initialize()
 
 	;tracks whether or not the keyboard is currently locked
 	global locked = false
-
-    ;whether or not you wish to also lock the mouse
+	
+	;whether or not you wish to also lock the mouse	
 	global lockMouse = false
 
 	;the unlock password
 	global password = "unlock"
 
+	;define the hotKey and hotKyeHint
+	global lockKeyHint = "Ctrl+Alt+k"
+	global lockKey = "^!k"
+	global lockOnRun = 1
+
 	;initialize the tray icon and menu
 	Menu, Tray, Icon, %A_ScriptDir%\unlocked.ico
 	Menu, Tray, NoStandard
-	Menu, Tray, Tip, Press Ctrl+Alt+k to lock your keyboard
+	Menu, Tray, Tip, Press %lockKeyHint% to lock your keyboard
 	Menu, Tray, Add, Lock keyboard, ToggleKeyboard
 	if (notray = 0) {
 		Menu, Tray, add, Hide tray notifications, ToggleTray
@@ -29,20 +35,24 @@ initialize()
 		Menu, Tray, add, Show tray notifications, ToggleTray
 	}
 	Menu, Tray, Add, Exit, Exit
-	if (notray = 0) {
-    	TrayTip,,To lock your keyboard press Ctrl+Alt+k.,10,1
-    }
+	if (lockOnRun=1){
+		gosub Main
+	} else {
+		TrayTip,,To lock your keyboard press %lockKeyHint%.,10,1
+	}
+
 }
 
 ;shortcut to lock the keyboard (can't be called if keyboard is already locked)
-^!k::
-	;don't block Ctrl, Alt or k key-up
-	KeyWait, Ctrl
-	KeyWait, Alt
-	KeyWait, k
+Hotkey,%lockKey%,Main
 
+Main:
+	;don't block the lockKey from up
+	for index, key in StrSplit(lockKeyHint, "+")
+		KeyWait, %key%
 	LockKeyboard(true)
-return
+	return
+
 
 ;"Lock/Unlock keyboard" menu clicked
 ToggleKeyboard()
@@ -86,8 +96,8 @@ LockKeyboard(lock)
 	
 	;whether or not the keyboard is currently locked
 	global locked
-
-	;whether or not we should also lock the mouse
+	
+	;whether or not we should also lock the mouse	
 	global lockMouse
 
 	;handle pointing to the keyboard hook
@@ -104,14 +114,13 @@ LockKeyboard(lock)
 		hHook := DllCall("SetWindowsHookEx", "Ptr", WH_KEYBOARD_LL:=13, "Ptr", RegisterCallback("Hook_Keyboard","Fast"), "Uint", DllCall("GetModuleHandle", "Uint", 0, "Ptr"), "Uint", 0, "Ptr")
 		locked := true
 		Menu, Tray, Rename, Lock keyboard, Unlock keyboard
-		
-		;also lock the mouse
+		; stops the mouse function
 		if (lockMouse) {
-            Hotkey, LButton, doNothing
-            Hotkey, RButton, doNothing
-            Hotkey, MButton, doNothing
-    		BlockInput, MouseMove
-        }
+			Hotkey, LButton, doNothing
+			Hotkey, RButton, doNothing
+			Hotkey, MButton, doNothing
+			BlockInput, MouseMove
+		}
 
 		if (notray = 0) {
 			;remind user what the password is
@@ -119,22 +128,21 @@ LockKeyboard(lock)
 		}
 	} else {
 		Menu, Tray, Icon, %A_ScriptDir%\unlocked.ico
-		Menu, Tray, Tip, Press Ctrl+Alt+k to lock your keyboard
+		Menu, Tray, Tip, Press %lockKeyHint% to lock your keyboard
 		DllCall("UnhookWindowsHookEx", "Ptr", hHook)
 		hHook = 0
 		locked := false
 		Menu, Tray, Rename, Unlock keyboard, Lock keyboard
-
-        ;also unlock the mouse
-        if (lockMouse) {
-            Hotkey, LButton, Off
-            Hotkey, MButton, Off
-            Hotkey, RButton, Off
-            BlockInput, MouseMoveOff
-        }
+	;also unlock the mouse			
+	if (lockMouse) {			
+	    Hotkey, LButton, Off			
+	    Hotkey, MButton, Off	
+	    Hotkey, RButton, Off	
+	    BlockInput, MouseMoveOff	
+	}	
 
 		if (notray = 0) {
-			TrayTip,,Your keyboard is now unlocked.`nPress Ctrl+Alt+k to lock it again.,10,1
+			TrayTip,,Your keyboard is now unlocked.`nPress %lockKeyHint% to lock it again.,10,1
 		}
 	}
 }
@@ -241,6 +249,5 @@ inArray(needle, haystack) {
 	return false
 }
 
-;this is used when locking the mouse
 doNothing:
-    return
+return
