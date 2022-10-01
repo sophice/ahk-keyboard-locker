@@ -19,10 +19,13 @@ initialize()
 	;the unlock password
 	global password = "unlock"
 
-	;define the hotKey and hotKyeHint
-	global lockKeyHint = "Ctrl+Alt+k"
+	;define a custom keyboard shortcut and hint
+	;NOTE: the hint must be in the format "Key+Key+Key" where the key names can be passed directly to KeyWait
 	global lockKey = "^!k"
-	global lockOnRun = 1
+	global lockKeyHint = "Ctrl+Alt+k"
+
+    ;immediately lock the keyboard when the script is run
+	global lockOnRun = 0
 
 	;initialize the tray icon and menu
 	Menu, Tray, Icon, %A_ScriptDir%\unlocked.ico
@@ -35,23 +38,31 @@ initialize()
 		Menu, Tray, add, Show tray notifications, ToggleTray
 	}
 	Menu, Tray, Add, Exit, Exit
-	if (lockOnRun=1){
+	if (lockOnRun=1) {
 		gosub Main
-	} else {
+	} else if (notray = 0) {
 		TrayTip,,To lock your keyboard press %lockKeyHint%.,10,1
 	}
 
 }
 
-;shortcut to lock the keyboard (can't be called if keyboard is already locked)
-Hotkey,%lockKey%,Main
+;shortcut to lock the keyboard
+Hotkey, %lockKey%, ShortcutTriggered
+ShortcutTriggered:
+    ;if we're already locked, stop here
+    if (locked)
+    {
+        return
+    }
 
-Main:
-	;don't block the lockKey from up
+	;wait for each shortcut key to be released, so they don't get "stuck"
 	for index, key in StrSplit(lockKeyHint, "+")
+	{
 		KeyWait, %key%
+    }
+
 	LockKeyboard(true)
-	return
+return
 
 
 ;"Lock/Unlock keyboard" menu clicked
