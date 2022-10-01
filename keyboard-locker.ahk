@@ -98,6 +98,13 @@ LockKeyboard(lock)
 		hHook := DllCall("SetWindowsHookEx", "Ptr", WH_KEYBOARD_LL:=13, "Ptr", RegisterCallback("Hook_Keyboard","Fast"), "Uint", DllCall("GetModuleHandle", "Uint", 0, "Ptr"), "Uint", 0, "Ptr")
 		locked := true
 		Menu, Tray, Rename, Lock keyboard, Unlock keyboard
+		
+		; stops the mouse inputs, todo: optional stop mousemove
+		Hotkey, LButton, doNothing
+		Hotkey, RButton, doNothing
+		Hotkey, MButton, doNothing
+		;BlockInput, MouseMove
+
 
 		if (notray = 0) {
 			;remind user what the password is
@@ -110,6 +117,10 @@ LockKeyboard(lock)
 		hHook = 0
 		locked := false
 		Menu, Tray, Rename, Unlock keyboard, Lock keyboard
+		; resume the mouse function
+		Hotkey, LButton, Off
+		Hotkey, MButton, Off
+		Hotkey, RButton, Off
 
 		if (notray = 0) {
 			TrayTip,,Your keyboard is now unlocked.`nPress Ctrl+Alt+k to lock it again.,10,1
@@ -218,3 +229,7 @@ inArray(needle, haystack) {
     }
 	return false
 }
+
+;the dummy label to stop mouse inputs
+doNothing:
+return
