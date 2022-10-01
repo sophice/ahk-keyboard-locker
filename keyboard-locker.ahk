@@ -3,51 +3,62 @@
 
 FileInstall, unlocked.ico, unlocked.ico, 0
 FileInstall, locked.ico, locked.ico, 0
+
+;CONFIG: set this to true to disable tray notification popups
+notray := false
+
+;CONFIG: set this to true to also lock the mouse when you lock the keyboard
+lockMouse := false
+
+;CONFIG: the unlock password
+password := "unlock"
+
+;CONFIG: define a custom keyboard shortcut and hint
+;NOTE: the hint must be in the format "Key+Key+Key" where the key names can be passed directly to KeyWait
+lockKey := "^!k"
+lockKeyHint := "Ctrl+Alt+k"
+
+;CONFIG: set this to true to immediately lock the keyboard when the script is run
+lockOnRun := false
+
+;(do not change) tracks whether or not the keyboard is currently locked
+locked := false
+
+;create the tray icon and do initial setup
 initialize()
+
+;set up the keyboard shortcut to lock the keyboard
+Hotkey, %lockKey%, ShortcutTriggered
+
+;end execution here - the rest of the file is functions and callbacks
+return
 
 initialize()
 {
-	;tracks whether tray notifications are toggled on or off
-	global notray = 0
-
-	;tracks whether or not the keyboard is currently locked
-	global locked = false
-	
-	;whether or not you wish to also lock the mouse	
-	global lockMouse = false
-
-	;the unlock password
-	global password = "unlock"
-
-	;define a custom keyboard shortcut and hint
-	;NOTE: the hint must be in the format "Key+Key+Key" where the key names can be passed directly to KeyWait
-	global lockKey = "^!k"
-	global lockKeyHint = "Ctrl+Alt+k"
-
-    ;immediately lock the keyboard when the script is run
-	global lockOnRun = 0
+    global lockKeyHint
+    global notray
+    global lockOnRun
 
 	;initialize the tray icon and menu
 	Menu, Tray, Icon, %A_ScriptDir%\unlocked.ico
 	Menu, Tray, NoStandard
 	Menu, Tray, Tip, Press %lockKeyHint% to lock your keyboard
 	Menu, Tray, Add, Lock keyboard, ToggleKeyboard
-	if (notray = 0) {
-		Menu, Tray, add, Hide tray notifications, ToggleTray
-	} else {
+	if (notray) {
 		Menu, Tray, add, Show tray notifications, ToggleTray
+	} else {
+		Menu, Tray, add, Hide tray notifications, ToggleTray
 	}
 	Menu, Tray, Add, Exit, Exit
-	if (lockOnRun=1) {
-		gosub Main
-	} else if (notray = 0) {
+
+	if (lockOnRun) {
+		LockKeyboard(true)
+	} else if (!notray) {
 		TrayTip,,To lock your keyboard press %lockKeyHint%.,10,1
 	}
-
 }
 
-;shortcut to lock the keyboard
-Hotkey, %lockKey%, ShortcutTriggered
+;callback for when the keyboard shortcut is pressed
 ShortcutTriggered:
     ;if we're already locked, stop here
     if (locked)
@@ -70,10 +81,10 @@ ToggleKeyboard()
 {
 	global locked
 
-	if (locked = false) {
-		LockKeyboard(true)
-	} else {
+	if (locked) {
 		LockKeyboard(false)
+	} else {
+		LockKeyboard(true)
 	}
 }
 
@@ -82,12 +93,12 @@ ToggleTray()
 {
 	global notray
 
-	if (notray = 0) {
-		notray = 1
-		Menu, Tray, Rename, Hide tray notifications, Show tray notifications
-	} else {
-		notray = 0
+	if (notray) {
+		notray = false
 		Menu, Tray, Rename, Show tray notifications, Hide tray notifications
+	} else {
+		notray = true
+		Menu, Tray, Rename, Hide tray notifications, Show tray notifications
 	}
 }
 
@@ -100,32 +111,35 @@ Exit()
 ;Lock or unlock the keyboard
 LockKeyboard(lock)
 {
-    global timer
-
-	;whether or not we should display tooltips
 	global notray
-	
-	;whether or not the keyboard is currently locked
 	global locked
-	
-	;whether or not we should also lock the mouse	
 	global lockMouse
+	global password
+    global timer
 
 	;handle pointing to the keyboard hook
 	static hHook = 0
 
-	;already (un)locked, no action necessary.
-	if ((hHook!=0) = (lock!=0)) {
+	;lock status already matches what we were asked to do, no action necessary
+	if ((hHook != 0) = lock) {
 		return
 	}
  
 	if (lock) {
+	    ;change the tray icon to a lock
 		Menu, Tray, Icon, %A_ScriptDir%\locked.ico
-		Menu, Tray, Tip, Type "unlock" to unlock your keyboard
+
+        ;hint at the unlock password
+		Menu, Tray, Tip, Type "%password%" to unlock your keyboard
+
+        ;update menu to unlock
+		Menu, Tray, Rename, Lock keyboard, Unlock keyboard
+
+        ;lock the keyboard
 		hHook := DllCall("SetWindowsHookEx", "Ptr", WH_KEYBOARD_LL:=13, "Ptr", RegisterCallback("Hook_Keyboard","Fast"), "Uint", DllCall("GetModuleHandle", "Uint", 0, "Ptr"), "Uint", 0, "Ptr")
 		locked := true
-		Menu, Tray, Rename, Lock keyboard, Unlock keyboard
-		; stops the mouse function
+
+		;also lock the mouse, if configured to do so
 		if (lockMouse) {
 			Hotkey, LButton, doNothing
 			Hotkey, RButton, doNothing
@@ -133,26 +147,35 @@ LockKeyboard(lock)
 			BlockInput, MouseMove
 		}
 
-		if (notray = 0) {
-			;remind user what the password is
-			TrayTip,,Your keyboard is now locked.`nType in "unlock" to unlock it.,10,1
+        ;remind user what the password is
+		if (!notray) {
+			TrayTip,,Your keyboard is now locked.`nType in "%password%" to unlock it.,10,1
 		}
 	} else {
-		Menu, Tray, Icon, %A_ScriptDir%\unlocked.ico
-		Menu, Tray, Tip, Press %lockKeyHint% to lock your keyboard
+        ;unlock the keyboard
 		DllCall("UnhookWindowsHookEx", "Ptr", hHook)
-		hHook = 0
+		hHook := 0
 		locked := false
-		Menu, Tray, Rename, Unlock keyboard, Lock keyboard
-	;also unlock the mouse			
-	if (lockMouse) {			
-	    Hotkey, LButton, Off			
-	    Hotkey, MButton, Off	
-	    Hotkey, RButton, Off	
-	    BlockInput, MouseMoveOff	
-	}	
 
-		if (notray = 0) {
+        ;also unlock the mouse, if configured to do so
+        if (lockMouse) {
+            Hotkey, LButton, Off
+            Hotkey, MButton, Off
+            Hotkey, RButton, Off
+            BlockInput, MouseMoveOff
+        }
+
+	    ;change tray icon back to unlocked
+		Menu, Tray, Icon, %A_ScriptDir%\unlocked.ico
+
+        ;hint at the keyboard shortcut to lock again
+		Menu, Tray, Tip, Press %lockKeyHint% to lock your keyboard
+
+        ;update menu to lock
+		Menu, Tray, Rename, Unlock keyboard, Lock keyboard
+
+        ;remind user what the keyboard shortcut to lock is
+		if (!notray) {
 			TrayTip,,Your keyboard is now unlocked.`nPress %lockKeyHint% to lock it again.,10,1
 		}
 	}
@@ -260,5 +283,6 @@ inArray(needle, haystack) {
 	return false
 }
 
+;this is used to block mouse input
 doNothing:
 return
