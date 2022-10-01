@@ -12,6 +12,9 @@ initialize()
 	;tracks whether or not the keyboard is currently locked
 	global locked = false
 
+    ;whether or not you wish to also lock the mouse
+	global lockMouse = false
+
 	;the unlock password
 	global password = "unlock"
 
@@ -84,6 +87,9 @@ LockKeyboard(lock)
 	;whether or not the keyboard is currently locked
 	global locked
 
+	;whether or not we should also lock the mouse
+	global lockMouse
+
 	;handle pointing to the keyboard hook
 	static hHook = 0
 
@@ -99,12 +105,13 @@ LockKeyboard(lock)
 		locked := true
 		Menu, Tray, Rename, Lock keyboard, Unlock keyboard
 		
-		; stops the mouse inputs, todo: optional stop mousemove
-		Hotkey, LButton, doNothing
-		Hotkey, RButton, doNothing
-		Hotkey, MButton, doNothing
-		;BlockInput, MouseMove
-
+		;also lock the mouse
+		if (lockMouse) {
+            Hotkey, LButton, doNothing
+            Hotkey, RButton, doNothing
+            Hotkey, MButton, doNothing
+    		BlockInput, MouseMove
+        }
 
 		if (notray = 0) {
 			;remind user what the password is
@@ -117,10 +124,14 @@ LockKeyboard(lock)
 		hHook = 0
 		locked := false
 		Menu, Tray, Rename, Unlock keyboard, Lock keyboard
-		; resume the mouse function
-		Hotkey, LButton, Off
-		Hotkey, MButton, Off
-		Hotkey, RButton, Off
+
+        ;also unlock the mouse
+        if (lockMouse) {
+            Hotkey, LButton, Off
+            Hotkey, MButton, Off
+            Hotkey, RButton, Off
+            BlockInput, MouseMoveOff
+        }
 
 		if (notray = 0) {
 			TrayTip,,Your keyboard is now unlocked.`nPress Ctrl+Alt+k to lock it again.,10,1
@@ -230,6 +241,6 @@ inArray(needle, haystack) {
 	return false
 }
 
-;the dummy label to stop mouse inputs
+;this is used when locking the mouse
 doNothing:
-return
+    return
