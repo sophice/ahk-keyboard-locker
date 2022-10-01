@@ -19,7 +19,11 @@ initialize()
 	Menu, Tray, NoStandard
 	Menu, Tray, Tip, Press Ctrl+Alt+k to lock your keyboard
 	Menu, Tray, Add, Lock keyboard, ToggleKeyboard
-	Menu, Tray, Add, Hide tray notifications, ToggleTray
+	if (notray = 0) {
+		Menu, Tray, add, Hide tray notifications, ToggleTray
+	} else {
+		Menu, Tray, add, Show tray notifications, ToggleTray
+	}
 	Menu, Tray, Add, Exit, Exit
 	TrayTip,,To lock your keyboard press Ctrl+Alt+k.,10,1
 }
