@@ -115,7 +115,6 @@ LockKeyboard(lock)
 	global locked
 	global lockMouse
 	global password
-    global timer
 
 	;handle pointing to the keyboard hook
 	static hHook = 0
