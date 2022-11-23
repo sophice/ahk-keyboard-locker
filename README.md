@@ -30,7 +30,7 @@ Download the [latest release](https://github.com/sophice/ahk-keyboard-locker/rel
 
 # Settings
 
-Various settings can be changed by editing `settings.ini`. The file contains explanations for each setting.
+Various settings can be changed by editing `settings.ini`. You can change the following settings.
 
 - keyboard shortcut and password
 - disable keyboard shortcut or password
@@ -38,6 +38,8 @@ Various settings can be changed by editing `settings.ini`. The file contains exp
 - automatically lock on open
 - automatically exit on unlock
 - lock mouse as well
+
+The file contains explanations for each setting.
 
 # Known issues
 
