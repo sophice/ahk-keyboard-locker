@@ -9,7 +9,7 @@ class Settings
 
         this.map.Shortcut := {key:"shortcut", default:"^!k"}
         this.map.ShortcutHint := {key:"shortcut-hint", default:"Ctrl+Alt+k"}
-        this.map.DisableKeyboardShortcut := {key:"disable-keyboard-shortcut", default:false}
+        this.map.DisableShortcut := {key:"disable-shortcut", default:false}
 
         this.map.Password := {key:"password", default:"unlock"}
         this.map.DisablePassword := {key:"disable-password", default:false}

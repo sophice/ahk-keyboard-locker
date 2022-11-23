@@ -44,6 +44,12 @@ initialize()
 
 ;callback for when the keyboard shortcut is pressed
 ShortcutTriggered:
+    ;check if shortcut is disabled in settings
+    if (settings.DisableShortcut())
+    {
+        return
+    }
+
     ;if we're already locked, stop here
     if (locked)
     {
