@@ -7,6 +7,8 @@ class Settings
 
         this.map := {}
         this.map.Password := {key:"password", default:"unlock"}
+        this.map.Shortcut := {key:"shortcut", default:"^!k"}
+        this.map.ShortcutHint := {key:"shortcut-hint", default:"Ctrl+Alt+k"}
         this.map.LockOnOpen := {key:"lock-on-open", default:false}
         this.map.CloseOnUnlock := {key:"close-on-unlock", default:false}
         this.map.HideTooltips := {key:"hide-tooltips", default:false}
