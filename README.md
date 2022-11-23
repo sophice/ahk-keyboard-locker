@@ -18,34 +18,39 @@ You can either use the latest executable release, or run the script itself. Both
 
 ## Running the executable
 
-Download the [latest executable release](https://github.com/sophice/ahk-keyboard-locker/releases), place it anywhere you want, and run it!
-
-Note: You cannot currently change the keyboard shortcut or password in the executable version. The keyboard shortcut to lock is Ctrl+Alt+K, and the password to unlock is "unlock".
+Download the [latest release](https://github.com/sophice/ahk-keyboard-locker/releases), place it where you want, and run `keyboard-locker.exe`.
 
 ## Running the .ahk script
 
 1) Install [AutoHotkey](https://www.autohotkey.com/) version 1.x in order to run .ahk scripts. Not tested with AutoHotkey version 2.
-2) Download [the latest release](https://github.com/sophice/ahk-keyboard-locker/releases) and extract the files where you want.
+2) Download the [latest release](https://github.com/sophice/ahk-keyboard-locker/releases) and extract the files where you want.
 3) Run keyboard-locker.ahk.
 4) Lock the keyboard either by pressing the default shortcut "Ctrl+Alt+k", or by right clicking on the tray icon and selecting "Lock keyboard".
 5) Unlock the keyboard either by typing the default password "unlock", or by right clicking on the tray icon and selecting "Unlock keyboard".
 
-The keyboard shortcut and password can be changed by editing keyboard-locker.ahk.
+# Settings
+
+Various settings can be changed by editing `settings.ini`. The file contains explanations for each setting.
+
+- keyboard shortcut and password
+- disable keyboard shortcut or password
+- disable tray notifications
+- automatically lock on open
+- automatically exit on unlock
+- lock mouse as well
 
 # Known issues
 
 - Some media keys or Windows shortcuts may not be blocked.
-- Some keys (especially modifiers) may get "stuck" after typing the unlock password, requiring you to press them again to get them unstuck.
+- Some keys (especially modifiers) may get "stuck" after unlocking, requiring you to press them again to get them "unstuck".
 - There is sometimes a slight delay after typing the password before the keyboard is unlocked.
 
 Feel free to submit a PR if you have improvements for these issues!
 
 # Potential future improvements
 
-- Better configuration: command line parameters to customize the script on run, and a config file to provide your own defaults.
 - Stealth mode: hide the tray icon and disable tooltips on lock, making it slightly more difficult to bypass the script.
 - Temporary password: change the password at run time to avoid using the one that is readable in the script itself.
-- Lock the mouse: lock the mouse, keyboard, or both.
 - Unlock timer: automatically unlock after a period of time.
 - Inactivity lock: automatically lock after a period of inactivity.
 - Scheduled lock: automatically lock and unlock on a schedule.
