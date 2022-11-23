@@ -17,6 +17,7 @@ class Settings
         this.map.LockOnOpen := {key:"lock-on-open", default:false}
         this.map.CloseOnUnlock := {key:"close-on-unlock", default:false}
         this.map.HideTooltips := {key:"hide-tooltips", default:false}
+        this.map.LockMouse := {key:"lock-mouse", default:false}
     }
 
     __Call(method, params*)

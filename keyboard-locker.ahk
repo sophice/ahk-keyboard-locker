@@ -9,10 +9,7 @@ FileInstall, locked.ico, locked.ico, 0
 
 settings := new Settings()
 
-;CONFIG: set this to true to also lock the mouse when you lock the keyboard
-lockMouse := false
-
-;(do not change) tracks whether or not the keyboard is currently locked
+;(DO NOT CHANGE) tracks whether or not the keyboard is currently locked
 locked := false
 
 ;create the tray icon and do initial setup
@@ -97,7 +94,6 @@ Exit()
 LockKeyboard(lock)
 {
 	global locked
-	global lockMouse
 
 	;handle pointing to the keyboard hook
 	static hHook = 0
@@ -108,6 +104,13 @@ LockKeyboard(lock)
 	}
  
 	if (lock) {
+	    ;check that we didn't leave ourselves without a way to unlock again
+	    if(settings.DisablePassword() && settings.LockMouse())
+	    {
+	        MsgBox, You have disabled password unlocking and enabled mouse locking, which will prevent you from unlocking your system. Please re-enable one or the other.
+	        return
+	    }
+
 	    ;change the tray icon to a lock
 		Menu, Tray, Icon, %A_ScriptDir%\locked.ico
 
@@ -122,7 +125,7 @@ LockKeyboard(lock)
 		locked := true
 
 		;also lock the mouse, if configured to do so
-		if (lockMouse) {
+		if (settings.LockMouse()) {
 			Hotkey, LButton, doNothing
 			Hotkey, RButton, doNothing
 			Hotkey, MButton, doNothing
@@ -140,7 +143,7 @@ LockKeyboard(lock)
 		locked := false
 
         ;also unlock the mouse, if configured to do so
-        if (lockMouse) {
+        if (settings.LockMouse()) {
             Hotkey, LButton, Off
             Hotkey, MButton, Off
             Hotkey, RButton, Off
