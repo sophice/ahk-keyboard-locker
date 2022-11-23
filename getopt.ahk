@@ -1,4 +1,0 @@
-getopt(short,long)
-{
-
-}
