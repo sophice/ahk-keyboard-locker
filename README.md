@@ -39,7 +39,7 @@ Various settings can be changed by editing `settings.ini`. You can change the fo
 - automatically exit on unlock
 - lock mouse as well
 
-The file contains explanations for each setting.
+The settings file contains explanations for each setting.
 
 # Known issues
 
