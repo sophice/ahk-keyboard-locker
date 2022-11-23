@@ -1,5 +1,5 @@
-;#Persistent
-;#SingleInstance Ignore
+#Persistent
+#SingleInstance Ignore
 
 #Include Ini.ahk
 #Include Settings.ahk
