@@ -1,65 +1,53 @@
 class Settings
 {
-    static iniFile := ""
-
-    Ini()
+    __New()
     {
-        if(!Settings.iniFile)
+        this.ini := new Ini("settings.ini")
+        this.ini.Load()
+
+        this.map := {}
+        this.map.Password := {key:"password", default:"unlock"}
+        this.map.LockOnOpen := {key:"lock-on-open", default:false}
+        this.map.CloseOnUnlock := {key:"close-on-unlock", default:false}
+        this.map.HideTooltips := {key:"hide-tooltips", default:false}
+        this.map.DisableKeyboardShortcut := {key:"disable-keyboard-shortcut", default:false}
+    }
+
+    __Call(method, params*)
+    {
+        mode := "Get"
+
+        if(SubStr(method, 1, 3) == "Set")
         {
-            Settings.iniFile := new Ini("settings.ini")
-            Settings.iniFile.Load()
+            mode := "Set"
+            method := SubStr(method, 4)
         }
-        return Settings.iniFile
+
+        if(this.map.HasKey(method))
+        {
+            ;MsgBox, % "mode=" . mode . ", method=" . method . ", param=" . params[1] . ", key=" . this.map[method].key . ", default=" . this.map[method].default
+
+            if(mode == "Get")
+            {
+                return this.Get(this.map[method].key, this.map[method].default)
+            } else if(mode == "Set") {
+                return this.Set(this.map[method].key, params[1])
+            } else {
+                MsgBox, % "Unhandled Settings mode " . mode
+                ExitApp
+            }
+        }
     }
 
     Get(key, default)
     {
-        return Settings.Ini().GetMain(key, default)
+        ;MsgBox, % "key=" . key . ", ini=" . this.ini.GetMain(key, default)
+        return this.ini.GetMain(key, default)
     }
 
     Set(key, value)
     {
-        Settings.Ini().SetMain(key, value)
-        Settings.Ini().Save()
-    }
-
-    LockOnOpen()
-    {
-        return this.Get("lock-on-open", false)
-    }
-
-    SetLockOnOpen(value)
-    {
-        this.Set("lock-on-open", value)
-    }
-
-    CloseOnUnlock()
-    {
-        return Settings.Ini().getMain("close-on-unlock", false)
-    }
-
-    SetCloseOnUnlock(value)
-    {
-        this.Set("close-on-unlock", value)
-    }
-
-    HideTooltips()
-    {
-        return Settings.Ini().getMain("hide-tooltips", false)
-    }
-
-    SetHideTooltips(value)
-    {
-        this.Set("hide-tooltips", value)
-    }
-
-    DisableKeyboardShortcut()
-    {
-        return Settings.Ini().getMain("disable-keyboard-shortcut", false)
-    }
-
-    SetDisableKeyboardShortcut(value)
-    {
-        this.Set("disable-keyboard-shortcut", value)
+        this.ini.SetMain(key, value)
+        this.ini.Save()
     }
 }

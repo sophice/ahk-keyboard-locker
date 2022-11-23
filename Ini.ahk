@@ -41,7 +41,7 @@ class Ini {
                 {
                     this.mainSection := section
                 }
-                MsgBox, % section . "." . key . " = " . value
+                ;MsgBox, % section . "." . key . " = " . value
             }
         }
         ;MsgBox, % this.mainSection

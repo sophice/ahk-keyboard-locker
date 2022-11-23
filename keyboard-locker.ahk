@@ -7,11 +7,10 @@
 FileInstall, unlocked.ico, unlocked.ico, 0
 FileInstall, locked.ico, locked.ico, 0
 
+settings := new Settings()
+
 ;CONFIG: set this to true to also lock the mouse when you lock the keyboard
 lockMouse := false
-
-;CONFIG: the unlock password
-password := "unlock"
 
 ;CONFIG: define a custom keyboard shortcut and hint
 ;NOTE: the hint must be in the format "Key+Key+Key" where the key names can be passed directly to KeyWait
@@ -39,16 +38,16 @@ initialize()
 	Menu, Tray, NoStandard
 	Menu, Tray, Tip, Press %lockKeyHint% to lock your keyboard
 	Menu, Tray, Add, Lock keyboard, ToggleKeyboard
-	if (Settings.HideTooltips()) {
+	if (settings.HideTooltips()) {
 		Menu, Tray, add, Show tray notifications, ToggleTray
 	} else {
 		Menu, Tray, add, Hide tray notifications, ToggleTray
 	}
 	Menu, Tray, Add, Exit, Exit
 
-	if (Settings.LockOnOpen()) {
+	if (settings.LockOnOpen()) {
 		LockKeyboard(true)
-	} else if (!Settings.HideTooltips()) {
+	} else if (!settings.HideTooltips()) {
 		TrayTip,,To lock your keyboard press %lockKeyHint%.,10,1
 	}
 }
@@ -86,11 +85,11 @@ ToggleKeyboard()
 ;"Hide/Show tray notifications" menu clicked
 ToggleTray()
 {
-	if (Settings.HideTooltips()) {
-	    Settings.SetHideTooltips(false)
+	if (settings.HideTooltips()) {
+	    settings.SetHideTooltips(false)
 		Menu, Tray, Rename, Show tray notifications, Hide tray notifications
 	} else {
-	    Settings.SetHideTooltips(true)
+	    settings.SetHideTooltips(true)
 		Menu, Tray, Rename, Hide tray notifications, Show tray notifications
 	}
 }
@@ -106,7 +105,7 @@ LockKeyboard(lock)
 {
 	global locked
 	global lockMouse
-	global password
+	global lockKeyHint
 
 	;handle pointing to the keyboard hook
 	static hHook = 0
@@ -121,7 +120,7 @@ LockKeyboard(lock)
 		Menu, Tray, Icon, %A_ScriptDir%\locked.ico
 
         ;hint at the unlock password
-		Menu, Tray, Tip, Type "%password%" to unlock your keyboard
+		Menu, Tray, Tip, % "Type " . settings.Password() . " to unlock your keyboard"
 
         ;update menu to unlock
 		Menu, Tray, Rename, Lock keyboard, Unlock keyboard
@@ -139,8 +138,8 @@ LockKeyboard(lock)
 		}
 
         ;remind user what the password is
-		if (!Settings.HideTooltips()) {
-			TrayTip,,Your keyboard is now locked.`nType in "%password%" to unlock it.,10,1
+		if (!settings.HideTooltips()) {
+			TrayTip,,% "Your keyboard is now locked.`nType " . settings.Password() . " to unlock it.",10,1
 		}
 	} else {
         ;unlock the keyboard
@@ -166,8 +165,13 @@ LockKeyboard(lock)
 		Menu, Tray, Rename, Unlock keyboard, Lock keyboard
 
         ;remind user what the keyboard shortcut to lock is
-		if (!Settings.HideTooltips()) {
-			TrayTip,,Your keyboard is now unlocked.`nPress %lockKeyHint% to lock it again.,10,1
+		if (!settings.HideTooltips()) {
+			TrayTip,,% "Your keyboard is now unlocked.`nPress " . lockKeyHint . " to lock it again.",10,1
+		}
+
+		if(settings.CloseOnUnlock())
+		{
+		    ExitApp
 		}
 	}
 }
@@ -175,9 +179,6 @@ LockKeyboard(lock)
 ;Catch and discard keypresses when the keyboard is locked, and monitor for password inputs
 Hook_Keyboard(nCode, wParam, lParam)
 {
-    ;the password we're trying to match
-	global password
-
     ;track our position while correctly typing the password
 	static count = 0
 
@@ -201,7 +202,7 @@ Hook_Keyboard(nCode, wParam, lParam)
 
 	;check password progress/completion
 	if (!isKeyUp) {
-	    expectedCharacter := SubStr(password, count+1, 1)
+	    expectedCharacter := SubStr(settings.Password(), count+1, 1)
         expectedScanCode := GetKeySC(expectedCharacter)
         requiresShift := requiresShift(expectedCharacter)
 
@@ -210,7 +211,7 @@ Hook_Keyboard(nCode, wParam, lParam)
 	        count := count + 1
 
 	        ;password is complete!
-	        if(count == StrLen(password)) {
+	        if(count == StrLen(settings.Password())) {
                 count = 0
                 shifted = 0
                 LockKeyboard(false)
