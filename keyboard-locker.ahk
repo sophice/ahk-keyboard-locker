@@ -193,7 +193,7 @@ Hook_Keyboard(nCode, wParam, lParam)
     }
 
 	;check password progress/completion
-	if (!isKeyUp) {
+	if (!settings.DisablePassword() && !isKeyUp) {
 	    expectedCharacter := SubStr(settings.Password(), count+1, 1)
         expectedScanCode := GetKeySC(expectedCharacter)
         requiresShift := requiresShift(expectedCharacter)
