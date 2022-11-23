@@ -18,7 +18,7 @@ You can either use the latest executable release, or run the script itself. Both
 
 ## Running the executable
 
-Download the [latest release](https://github.com/sophice/ahk-keyboard-locker/releases), place it where you want, and run `keyboard-locker.exe`.
+Download the [latest release](https://github.com/sophice/ahk-keyboard-locker/releases), place it where you want, and run `keyboard-locker.exe`. Don't forget to grab `settings.ini` from the release as well.
 
 ## Running the .ahk script
 
