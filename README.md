@@ -24,9 +24,9 @@ Download the [latest release](https://github.com/sophice/ahk-keyboard-locker/rel
 
 1) Install [AutoHotkey](https://www.autohotkey.com/) version 1.x in order to run .ahk scripts. Not tested with AutoHotkey version 2.
 2) Download the [latest release](https://github.com/sophice/ahk-keyboard-locker/releases) and extract the files where you want.
-3) Run keyboard-locker.ahk.
-4) Lock the keyboard either by pressing the default shortcut "Ctrl+Alt+k", or by right clicking on the tray icon and selecting "Lock keyboard".
-5) Unlock the keyboard either by typing the default password "unlock", or by right clicking on the tray icon and selecting "Unlock keyboard".
+3) Run `keyboard-locker.ahk`.
+4) Lock the keyboard either by pressing the default shortcut `Ctrl+Alt+k`, or by right clicking on the tray icon and selecting "Lock keyboard".
+5) Unlock the keyboard either by typing the default password `unlock`, or by right clicking on the tray icon and selecting "Unlock keyboard".
 
 # Settings
 
