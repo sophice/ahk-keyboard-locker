@@ -99,6 +99,13 @@ class Ini {
 
     Save()
     {
-        ;MsgBox, Ini.Save() not implemented yet!
+        for section, values in this.data
+        {
+            for key, value in values
+            {
+                IniWrite, % value, % this.filename, % section, % key
+                ;MsgBox % section . "." . key . "=" . value
+            }
+        }
     }
 }
