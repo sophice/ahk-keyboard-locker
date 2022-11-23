@@ -1,11 +1,11 @@
-#Persistent
-#SingleInstance Ignore
+;#Persistent
+;#SingleInstance Ignore
+
+#Include Ini.ahk
+#Include Settings.ahk
 
 FileInstall, unlocked.ico, unlocked.ico, 0
 FileInstall, locked.ico, locked.ico, 0
-
-;CONFIG: set this to true to disable tray notification popups
-notray := false
 
 ;CONFIG: set this to true to also lock the mouse when you lock the keyboard
 lockMouse := false
@@ -17,9 +17,6 @@ password := "unlock"
 ;NOTE: the hint must be in the format "Key+Key+Key" where the key names can be passed directly to KeyWait
 lockKey := "^!k"
 lockKeyHint := "Ctrl+Alt+k"
-
-;CONFIG: set this to true to immediately lock the keyboard when the script is run
-lockOnRun := false
 
 ;(do not change) tracks whether or not the keyboard is currently locked
 locked := false
@@ -36,24 +33,22 @@ return
 initialize()
 {
     global lockKeyHint
-    global notray
-    global lockOnRun
 
 	;initialize the tray icon and menu
 	Menu, Tray, Icon, %A_ScriptDir%\unlocked.ico
 	Menu, Tray, NoStandard
 	Menu, Tray, Tip, Press %lockKeyHint% to lock your keyboard
 	Menu, Tray, Add, Lock keyboard, ToggleKeyboard
-	if (notray) {
+	if (Settings.HideTooltips()) {
 		Menu, Tray, add, Show tray notifications, ToggleTray
 	} else {
 		Menu, Tray, add, Hide tray notifications, ToggleTray
 	}
 	Menu, Tray, Add, Exit, Exit
 
-	if (lockOnRun) {
+	if (Settings.LockOnOpen()) {
 		LockKeyboard(true)
-	} else if (!notray) {
+	} else if (!Settings.HideTooltips()) {
 		TrayTip,,To lock your keyboard press %lockKeyHint%.,10,1
 	}
 }
@@ -91,13 +86,11 @@ ToggleKeyboard()
 ;"Hide/Show tray notifications" menu clicked
 ToggleTray()
 {
-	global notray
-
-	if (notray) {
-		notray = false
+	if (Settings.HideTooltips()) {
+	    Settings.SetHideTooltips(false)
 		Menu, Tray, Rename, Show tray notifications, Hide tray notifications
 	} else {
-		notray = true
+	    Settings.SetHideTooltips(true)
 		Menu, Tray, Rename, Hide tray notifications, Show tray notifications
 	}
 }
@@ -111,7 +104,6 @@ Exit()
 ;Lock or unlock the keyboard
 LockKeyboard(lock)
 {
-	global notray
 	global locked
 	global lockMouse
 	global password
@@ -147,7 +139,7 @@ LockKeyboard(lock)
 		}
 
         ;remind user what the password is
-		if (!notray) {
+		if (!Settings.HideTooltips()) {
 			TrayTip,,Your keyboard is now locked.`nType in "%password%" to unlock it.,10,1
 		}
 	} else {
@@ -174,7 +166,7 @@ LockKeyboard(lock)
 		Menu, Tray, Rename, Unlock keyboard, Lock keyboard
 
         ;remind user what the keyboard shortcut to lock is
-		if (!notray) {
+		if (!Settings.HideTooltips()) {
 			TrayTip,,Your keyboard is now unlocked.`nPress %lockKeyHint% to lock it again.,10,1
 		}
 	}
