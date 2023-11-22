@@ -1,11 +1,11 @@
 #Persistent
 #SingleInstance Ignore
 
-#Include Ini.ahk
-#Include Settings.ahk
+#Include %A_ScriptDir%\Ini.ahk
+#Include %A_ScriptDir%\Settings.ahk
 
-FileInstall, unlocked.ico, unlocked.ico, 0
-FileInstall, locked.ico, locked.ico, 0
+FileInstall, unlocked.ico, %A_ScriptDir%\unlocked.ico, 0
+FileInstall, locked.ico, %A_ScriptDir%\locked.ico, 0
 
 settings := new Settings()
 
@@ -28,6 +28,8 @@ initialize()
 	Menu, Tray, NoStandard
 	Menu, Tray, Tip, % "Press " . settings.ShortcutHint() . " to lock your keyboard"
 	Menu, Tray, Add, Lock keyboard, ToggleKeyboard
+	Menu, Tray, Click, 1
+	Menu, Tray, Default, Lock keyboard
 	if (settings.HideTooltips()) {
 		Menu, Tray, add, Show tray notifications, ToggleTray
 	} else {

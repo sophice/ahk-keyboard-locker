@@ -2,7 +2,7 @@ class Settings
 {
     __New()
     {
-        this.ini := new Ini("settings.ini")
+        this.ini := new Ini(A_ScriptDir "\settings.ini")
         this.ini.Load()
 
         this.map := {}
